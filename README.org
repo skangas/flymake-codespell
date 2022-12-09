@@ -1,0 +1,18 @@
+#+TITLE:  test
+#+DATE:   2022-12-09
+#+AUTHOR: Stefan Kangas
+#+EMAIL:  stefankangas@gmail.com
+
+* flymake-codespell
+
+
+
+
+* Contact
+
+You can find the latest version of flymake-codespell here:
+
+https://www.github.com/skangas/flymake-codespell
+
+Bug reports, comments, and suggestions are welcome!  Send them to Stefan Kangas
+<stefankangas@gmail.com> or report them on GitHub.

@@ -1,0 +1,7 @@
+*.elc
+*.org_archive
+*~
+.dir-locals-2.el
+TAGS
+\#*
+\.\#*
