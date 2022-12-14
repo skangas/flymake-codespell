@@ -1,0 +1,37 @@
+name: test
+on: [ push, pull_request ]
+permissions: {}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        emacs_version:
+        - 25.1
+        - 25.3
+        - 26.1
+        - 26.2
+        - 26.3
+        - 27.1
+        - 27.2
+        - 28.1
+        - 28.2
+        - snapshot
+      fail-fast: false
+
+    steps:
+    - name: Checkout flymake-codespell
+      uses: actions/checkout@v3
+      with:
+        repository: skangas/flymake-codespell
+        path: flymake-codespell
+        persist-credentials: false
+
+    - name: Install emacs
+      uses: purcell/setup-emacs@master
+      with:
+        version: ${{ matrix.emacs_version }}
+
+    - name: Build flymake-codespell
+      run: make -C flymake-codespell all
