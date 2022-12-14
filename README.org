@@ -1,38 +1,21 @@
 * flymake-codespell
 
-This adds a [[https://github.com/codespell-project/codespell][codespell]] backend for [[https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html][flymake-mode]] in Emacs.
+This is a [[https://github.com/codespell-project/codespell][codespell]] backend for [[https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html][Flymake]] in Emacs, used to
+automatically highlight errors as you type.  It requires Emacs version
+26.1 or newer.
 
-In comparison to other spellcheckers, codespell does not have a
-dictionary of known words.  Instead it has a list of common typos, and
-checks only for those.  This means that it's far less likely to
-generate false positives, especially when used on source code, or
-technical documentation and research.
+Unlike most other spellcheckers, codespell does not have a dictionary
+of known words.  Instead it has a list of common typos, and checks
+only for those.  This means that it's far less likely to generate
+false positives, especially when used on source code, or technical
+documentation and research.
 
 * Prerequisites
 
-First, install ~codespell~.  For example, if you're using Debian
-GNU/Linux, run this command in a terminal:
+First, install ~codespell~ on your system.  For example, if you're
+using Debian GNU/Linux, run this command in a terminal:
 
 : sudo apt install codespell
-
-For other distributions, it is something very similar to that.
-
-* Quick start
-
-If you're impatient, simply copy and paste this into your init file:
-
-: (use-package flymake-codespell
-:   :ensure t
-:   :hook (prog-mode . flymake-codespell-setup-backend))
-
-This will enable ~flymake-codespell~ in all programming language
-modes, and automatically install it the next time you restart Emacs.
-The above example works out-of-the-box on Emacs 29.  For older
-versions, you must first install ~use-package~.
-
-* Installation
-
-You may also install codespell using ~pip~, or similar.
 
 Once codespell is installed, install this package by typing the
 following in Emacs:
@@ -42,29 +25,39 @@ following in Emacs:
 * Usage
 
 You must make sure the ~flymake-codespell-setup-backend~ function is
-called in the modes where you want to use it.
-
-For example, let's say you want to use it in all programming language
-modes.  To make sure it is run in ~prog-mode~, which all programming
-language modes inherit, add the following line to your init file:
+called in the modes where you want to use it.  For example, to make
+sure it is run in all programming language modes, add the following
+line to your init file:
 
 : (add-hook 'prog-mode-hook 'flymake-codespell-setup-backend)
 
-You can substitute ~prog-mode-hook~ for the hook relevant to any mode
-you want.  Some typical examples would be ~org-mode~, ~tex-mode~, and
-~markdown-mode~.
+You can substitute ~prog-mode-hook~ for any mode hook.  For example,
+to add it to all text modes:
+
+: (add-hook 'text-mode-hook 'flymake-codespell-setup-backend)
+
+You must also make sure ~flymake~ is enabled in the same modes.  Type
+~M-x flymake-mode~ to enable it for the running session, or set up
+hooks.  For example:
+
+: (add-hook 'prog-mode-hook 'flymake-mode)
+
+See the [[Https://www.gnu.org/software/emacs/manual/html_node/flymake/index.html][Flymake manual]] for more details.
 
 * Usage with use-package
 
-With ~use-package~, available out-of-the-box in Emacs 29 and from GNU
-ELPA for older versions, simply add the following to your init file:
+The ~use-package~ can simplify your init file, and is available
+out-of-the-box starting with Emacs 29.1.  For older versions, you must
+first install ~use-package~.  Here is a ~use-package~ declaration that
+you can copy into your init file:
 
 : (use-package flymake-codespell
 :   :ensure t
 :   :hook (prog-mode . flymake-codespell-setup-backend))
 
-The ~:ensure t~ part makes sure the package is automatically installed
-when you're starting Emacs, if it isn't already.
+This enables ~flymake-codespell~ in all programming language modes,
+and automatically installs it the next time you restart Emacs, if it
+isn't already.
 
 To add this to several modes, use something like the following:
 
@@ -73,18 +66,14 @@ To add this to several modes, use something like the following:
 :   :hook ((prog-mode . flymake-codespell-setup-backend)
 :          (text-mode . flymake-codespell-setup-backend)))
 
-The ~text-mode~ hook will add this also to all modes inheriting
-~text-mode~ (but not special modes).
-
-You must also enable flymake, of course.  This is documented in the
-~flymake~ manual, but here's a ~use-package~ declaration:
+Here's a ~use-package~ declaration to unable flymake in the same modes:
 
 : (use-package flymake
-:   :hook prog-mode)
+:   :hook (prog-mode text-mode))
 
 * Alternatives
 
-Here are some alternatives to codespell-flymake:
+Here are some alternatives to ~codespell-flymake~:
 
 - [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html#index-flyspell_002dprog_002dmode][flyspell-prog-mode]], which comes with Emacs out-of-the-box.
 

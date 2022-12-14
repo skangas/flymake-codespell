@@ -25,7 +25,15 @@
 
 ;;; Commentary:
 
-;; To use this, install this package using
+;; This adds a codespell backend for flymake-mode in Emacs.
+;;
+;; Unlike most other spellcheckers, codespell does not have a
+;; dictionary of known words.  Instead it has a list of common typos,
+;; and checks only for those.  This means that it’s far less likely to
+;; generate false positives, especially when used on source code, or
+;; technical documentation and research.
+;; 
+;; Install this package using
 ;;
 ;;     M-x package-install RET codespell RET
 ;;
@@ -42,6 +50,9 @@
 ;; `exec-path'.
 ;;
 ;; See the file README.org in this repository for more details.
+;;
+;; Bug reports, comments, and suggestions are welcome!  Send them to
+;; Stefan Kangas <stefankangas@gmail.com> or report them on GitHub.
 
 ;;; Code:
 
