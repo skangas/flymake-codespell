@@ -1,9 +1,14 @@
 ;;; flymake-codespell.el --- Flymake backend for codespell  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022  Stefan Kangas
+;; Copyright (C) 2022 Stefan Kangas
 
-;; Author: Stefan Kangas <stefankangas@gmail.com>
-;; Keywords: extensions
+;; Author     : Stefan Kangas <stefankangas@gmail.com>
+;; Maintainer : Stefan Kangas <stefankangas@gmail.com>
+;; Version    : 0
+;; URL        : https://www.github.com/skangas/flymake-codespell
+;; Keywords   : extensions
+;; SPDX-License-Identifier: GPL-3.0-or-later
+;; Package-Requires: ((emacs "26.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,7 +25,11 @@
 
 ;;; Commentary:
 
-;; To use this, install this package and add this to your init file:
+;; To use this, install this package using
+;;
+;;     M-x package-install RET codespell RET
+;;
+;; Then add this to your init file, or evaluate it using `M-:':
 ;;
 ;;     (add-hook 'prog-mode-hook 'flymake-codespell-setup-backend)
 ;;
@@ -31,6 +40,8 @@
 ;;
 ;; This requires codespell to be installed and available in your
 ;; `exec-path'.
+;;
+;; See the file README.org in this repository for more details.
 
 ;;; Code:
 
