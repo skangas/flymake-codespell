@@ -71,6 +71,30 @@ Here's a ~use-package~ declaration to unable flymake in the same modes:
 : (use-package flymake
 :   :hook (prog-mode text-mode))
 
+* Customization
+
+To customize ~flymake-codespell~, type:
+
+: M-x customize-group RET flymake-codespell RET
+
+If you prefer adding customizations to your init file, try setting the
+variables ~flymake-codespell-program~ and
+~flymake-codespell-program-arguments~.  These are their default
+values:
+
+: (setq flymake-codespell-program "codespell")
+: (setq flymake-codespell-program-arguments "")
+
+You could also use this ~use-package~ declaration:
+
+: (use-package flymake-codespell
+:   :ensure t
+:   :custom ((flymake-codespell-program "codespell")
+:            (flymake-codespell-program-arguments ""))
+:   :hook ((prog-mode . flymake-codespell-setup-backend)
+:          (text-mode . flymake-codespell-setup-backend)))
+
+
 * Alternatives
 
 Here are some alternatives to ~codespell-flymake~:

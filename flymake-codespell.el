@@ -66,6 +66,14 @@
   "Name of the codespell executable."
   :type 'string)
 
+(defcustom codespell-program-arguments ""
+  "Arguments passed to the codespell executable.
+The \"--disable-colors\" flag is passed unconditionally.
+
+See the Man page `codespell' or the output of running the command
+\"codespell --help\" for more details."
+  :type 'string)
+
 (defvar flymake-codespell--process nil
   "Currently running proceeed codespell process.")
 
@@ -83,7 +91,12 @@
        (make-process
         :name "flymake-codespell" :noquery t :connection-type 'pipe
         :buffer (generate-new-buffer " *flymake-codespell*")
-        :command `(,flymake-codespell-program "--disable-colors" "-")
+        :command `(,flymake-codespell-program
+                   "--disable-colors"
+                   ,@(when (and (stringp codespell-program-arguments)
+                                (> (length codespell-program-arguments) 0))
+                       (list codespell-program-arguments))
+                   "-")
         :sentinel
         (lambda (proc _event)
           (when (memq (process-status proc) '(exit signal))
