@@ -77,6 +77,19 @@ See the Man page `codespell' or the output of running the command
 (defvar flymake-codespell--process nil
   "Currently running proceeed codespell process.")
 
+(defun flymake-codespell--make-diagnostic (word locus beg end type text)
+  "Like `flymake-make-diagnostic' but adjust to highlight column.
+WORD is the word that should be highlighted.
+LOCUS, BEG, END, TYPE and TEXT are passed as is to
+`flymake-make-diagnostic'."
+  (with-current-buffer locus
+    (save-excursion
+      (goto-char beg)
+      (when (search-forward word (pos-eol) t)
+        (setq beg (match-beginning 0)
+              end (match-end 0)))))
+  (flymake-make-diagnostic locus beg end type text))
+
 (defun flymake-codespell-backend (report-fn &rest _args)
   ;; (message "CALLED BACKEND")
   (unless (executable-find flymake-codespell-program)
@@ -107,20 +120,23 @@ See the Man page `codespell' or the output of running the command
                     (goto-char (point-min))
                     (cl-loop
                      while (re-search-forward
-                            (rx bol (group (+ digit)) ": ;; " (+ nonl) "\n"
-                                (+ space)
-                                (group (+ any) " ==> " (+ any)))
+                            (rx bol
+                                (group (+ digit)) ": ;; " (+ nonl) "\n"
+                                (+ space) (group (+ any)) " ==> " (group (+ any)))
                             nil t)
-                     for msg = (format "codespell: %s" (match-string 2))
+                     for typo = (match-string 2)
+                     for correction = (match-string 3)
+                     for msg = (format "codespell: %s ==> %s" typo correction)
                      for (beg . end) = (flymake-diag-region
                                         source
                                         (string-to-number (match-string 1)))
                      when (and beg end)
-                     collect (flymake-make-diagnostic source
-                                                      beg
-                                                      end
-                                                      :error
-                                                      msg)
+                     collect (flymake-codespell--make-diagnostic typo
+                                                                 source
+                                                                 beg
+                                                                 end
+                                                                 :error
+                                                                 msg)
                      into diags
                      finally (funcall report-fn diags)))
                   (flymake-log :warning "Canceling obsolete check %s"
