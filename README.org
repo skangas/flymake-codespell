@@ -20,7 +20,7 @@ using Debian GNU/Linux, run this command in a terminal:
 Once codespell is installed, install this package by typing the
 following in Emacs:
 
-: M-x package-install RET codespell-flymake RET
+: M-x package-install RET flymake-codespell RET
 
 * Usage
 
@@ -97,7 +97,7 @@ You could also use this ~use-package~ declaration:
 
 * Alternatives
 
-Here are some alternatives to ~codespell-flymake~:
+Here are some alternatives to ~flymake-codespell~:
 
 - [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html#index-flyspell_002dprog_002dmode][flyspell-prog-mode]], which comes with Emacs out-of-the-box.
 
