@@ -75,7 +75,7 @@ See the Man page `codespell' or the output of running the command
   :type 'string)
 
 (defvar flymake-codespell--process nil
-  "Currently running proceeed codespell process.")
+  "Currently running codespell process.")
 
 (defun flymake-codespell--make-diagnostic (word locus beg end type text)
   "Like `flymake-make-diagnostic' but adjust to highlight column.
