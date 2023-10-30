@@ -8,7 +8,7 @@
 ;; URL        : https://www.github.com/skangas/flymake-codespell
 ;; Keywords   : extensions
 ;; SPDX-License-Identifier: GPL-3.0-or-later
-;; Package-Requires: ((emacs "26.1"))
+;; Package-Requires: ((emacs "26.1") (compat "29.1.4.2"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
