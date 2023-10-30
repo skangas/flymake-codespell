@@ -7,8 +7,8 @@ automatically highlight errors as you type.  It requires Emacs version
 Unlike most other spellcheckers, codespell does not have a dictionary
 of known words.  Instead it has a list of common typos, and checks
 only for those.  This means that it's far less likely to generate
-false positives, especially when used on source code, or technical
-documentation and research.
+false positives, especially when used on source code, or any file with
+a lot of specific terms like documentation or research.
 
 * Prerequisites
 

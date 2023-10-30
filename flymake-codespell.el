@@ -1,10 +1,10 @@
 ;;; flymake-codespell.el --- Flymake backend for codespell  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022 Stefan Kangas
+;; Copyright (C) 2022-2023 Free Software Foundation, Inc.
 
 ;; Author     : Stefan Kangas <stefankangas@gmail.com>
 ;; Maintainer : Stefan Kangas <stefankangas@gmail.com>
-;; Version    : 0
+;; Version    : 0.1
 ;; URL        : https://www.github.com/skangas/flymake-codespell
 ;; Keywords   : extensions
 ;; SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,13 +25,13 @@
 
 ;;; Commentary:
 
-;; This adds a codespell backend for flymake-mode in Emacs.
+;; This adds a codespell backend for `flymake-mode' in Emacs.
 ;;
-;; Unlike most other spellcheckers, codespell does not have a
-;; dictionary of known words.  Instead it has a list of common typos,
-;; and checks only for those.  This means that it’s far less likely to
-;; generate false positives, especially when used on source code, or
-;; technical documentation and research.
+;; Unlike most other spellcheckers, codespell does not have a dictionary of
+;; known words.  Instead it has a list of common typos, and checks only for
+;; those.  This means that it’s far less likely to generate false
+;; positives, especially when used on source code, or any file with a lot
+;; of specific terms like documentation or research.
 ;; 
 ;; Install this package using
 ;;
@@ -66,7 +66,7 @@
   "Name of the codespell executable."
   :type 'string)
 
-(defcustom codespell-program-arguments ""
+(defcustom flymake-codespell-program-arguments ""
   "Arguments passed to the codespell executable.
 The \"--disable-colors\" flag is passed unconditionally.
 
@@ -106,9 +106,9 @@ LOCUS, BEG, END, TYPE and TEXT are passed as is to
         :buffer (generate-new-buffer " *flymake-codespell*")
         :command `(,flymake-codespell-program
                    "--disable-colors"
-                   ,@(when (and (stringp codespell-program-arguments)
-                                (> (length codespell-program-arguments) 0))
-                       (list codespell-program-arguments))
+                   ,@(when (and (stringp flymake-codespell-program-arguments)
+                                (> (length flymake-codespell-program-arguments) 0))
+                       (list flymake-codespell-program-arguments))
                    "-")
         :sentinel
         (lambda (proc _event)
@@ -131,12 +131,13 @@ LOCUS, BEG, END, TYPE and TEXT are passed as is to
                                         source
                                         (string-to-number (match-string 1)))
                      when (and beg end)
-                     collect (flymake-codespell--make-diagnostic typo
-                                                                 source
-                                                                 beg
-                                                                 end
-                                                                 :error
-                                                                 msg)
+                     collect (flymake-codespell--make-diagnostic
+                              typo
+                              source
+                              beg
+                              end
+                              :error
+                              msg)
                      into diags
                      finally (funcall report-fn diags)))
                   (flymake-log :warning "Canceling obsolete check %s"
