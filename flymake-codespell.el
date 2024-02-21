@@ -121,7 +121,7 @@ LOCUS, BEG, END, TYPE and TEXT are passed as is to
                     (cl-loop
                      while (re-search-forward
                             (rx bol
-                                (group (+ digit)) ": ;; " (+ nonl) "\n"
+                                (group (+ digit)) ": " (+ nonl) "\n"
                                 (+ space) (group (+ any)) " ==> " (group (+ any)))
                             nil t)
                      for typo = (match-string 2)
