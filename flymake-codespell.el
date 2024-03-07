@@ -90,6 +90,17 @@ LOCUS, BEG, END, TYPE and TEXT are passed as is to
               end (match-end 0)))))
   (flymake-make-diagnostic locus beg end type text))
 
+(defun flymake-codespell--program-and-arguments (file)
+  "Return a list of the codespell command and its arguments for linting FILE."
+  `(,flymake-codespell-program
+    "--disable-colors"
+    ,@(if-let ((configdir (locate-dominating-file file ".codespellrc")))
+          `("--config" ,(expand-file-name ".codespellrc" configdir)))
+    ,@(when (and (stringp flymake-codespell-program-arguments)
+                 (> (length flymake-codespell-program-arguments) 0))
+        (list flymake-codespell-program-arguments))
+    "-"))
+
 (defun flymake-codespell-backend (report-fn &rest _args)
   ;; (message "CALLED BACKEND")
   (unless (executable-find flymake-codespell-program)
@@ -104,12 +115,7 @@ LOCUS, BEG, END, TYPE and TEXT are passed as is to
        (make-process
         :name "flymake-codespell" :noquery t :connection-type 'pipe
         :buffer (generate-new-buffer " *flymake-codespell*")
-        :command `(,flymake-codespell-program
-                   "--disable-colors"
-                   ,@(when (and (stringp flymake-codespell-program-arguments)
-                                (> (length flymake-codespell-program-arguments) 0))
-                       (list flymake-codespell-program-arguments))
-                   "-")
+        :command (flymake-codespell--program-and-arguments (buffer-name))
         :sentinel
         (lambda (proc _event)
           (when (memq (process-status proc) '(exit signal))
